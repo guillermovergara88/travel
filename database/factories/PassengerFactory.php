@@ -15,12 +15,15 @@ class PassengerFactory extends Factory
             'name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'code' => $this->faker->unique()->randomNumber(),
-            'dni' => $this->faker->unique()->randomNumber(),
+            'dni' => $this->faker->unique()->randomNumber(8),
             'allergies' => $this->faker->sentence(5),
             'medications' => $this->faker->sentence(5),
             'observations' => $this->faker->sentence(10),
             'user_id' => function () {
                 return \App\Models\User::factory()->create()->id;
+            },
+            'company_id' => function () {
+                return \App\Models\Company::factory()->create()->id;
             },
         ];
     }
