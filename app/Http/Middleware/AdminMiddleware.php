@@ -18,7 +18,7 @@ class AdminMiddleware
     {
         if (auth()->check()) {
             $user = User::find(auth()->id());
-            if (!$user->isAdmin() || $user->isSuperAdmin()) {
+            if (!$user->isAdmin() && !$user->isSuperAdmin()) {
                 abort(403, 'Unauthorized action.');
             } else {
                 return $next($request);
