@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Passenger;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -19,5 +20,23 @@ class DataTablesController extends Controller
                 return $user->company->name;
             })
             ->make(true);
+    }
+
+    public function passengers(Request $request)
+    {
+        $passengers = Passenger::with('user.company')->get();
+
+        return DataTables::of($passengers)
+            ->addColumn('company_name', function ($passenger) {
+                return $passenger->user->company->name;
+            })
+            ->addColumn('actions', function ($passenger) {
+                $editUrl = route('passenger.edit', $passenger->id);
+
+                return '<a href="' . $editUrl . '" class="btn btn-primary btn-sm mr-2">' . __('Edit') . '</a>';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+
     }
 }

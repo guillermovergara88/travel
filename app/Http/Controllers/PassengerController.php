@@ -12,7 +12,7 @@ class PassengerController extends Controller
      */
     public function index()
     {
-        $passengers = Passenger::all();
+        $passengers = Passenger::with('user.company')->get();
 
         return view('passenger.index', compact('passengers'));
     }

@@ -20,6 +20,7 @@
                             <th>{{ __('Email') }}</th>
                             <th>{{ __('Role') }}</th>
                             <th>{{ __('Company') }}</th>
+                            <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -77,10 +78,6 @@
             </div>
         </div>
     </div>
-    
-</div>
-</div>
-</div>
 </div>
 @endsection
 <style>
@@ -128,6 +125,15 @@
                 { data: 'email', name: 'email'},
                 { data: 'role', name: 'role'},
                 { data: 'company_name', name: 'company_name'},
+                { data: null,
+                    name: 'action',
+                    searchable: false,
+                    orderable: false,
+                    render: function (data, type, row) {
+                    var editUrl = "{{ route('user.edit', ':id') }}".replace(':id', data.id);
+                    return '<a href="' + editUrl + '" class="btn btn-sm btn-primary">Edit</a>';
+                    }
+                }
             ],
             initComplete: function () {
                 var api = this.api();

@@ -40,12 +40,12 @@ Route::prefix('users')->middleware(['auth', 'admin', 'superadmin'])->group(funct
     Route::get('/', [UserController::class, 'index'])->name('user.index');
     Route::get('/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/', [UserController::class, 'store'])->name('user.store');
-    Route::get('/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-    Route::put('/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 });
 
-Route::prefix('passengers')->middleware(['auth','superadmin', 'admin'])->group(function () {
+Route::prefix('passengers')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [App\Http\Controllers\PassengerController::class, 'index'])->name('passenger.index');
     Route::get('/create', [App\Http\Controllers\PassengerController::class, 'create'])->name('passenger.create');
     Route::post('/', [App\Http\Controllers\PassengerController::class, 'store'])->name('passenger.store');

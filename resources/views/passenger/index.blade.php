@@ -1,4 +1,12 @@
 @extends('layouts.app')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.3.3/js/dataTables.rowReorder.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 
 @section('content')
 <div class="container">
@@ -17,7 +25,7 @@
                             </div>
                         </div>
                     </div>
-                    <table class="table table-hover">
+                    <table id="passengers-table" class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">{{ __('ID') }}</th>
@@ -28,36 +36,10 @@
                                 <th scope="col">{{ __('Allergies') }}</th>
                                 <th scope="col">{{ __('Medications') }}</th>
                                 <th scope="col">{{ __('Observations') }}</th>
+                                <th scope="col">{{ __('Company') }}</th>
                                 <th scope="col">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($passengers as $passenger)
-                            <tr>
-                                <th scope="row">{{ $passenger->id }}</th>
-                                <td>{{ $passenger->name }}</td>
-                                <td>{{ $passenger->last_name }}</td>
-                                <td>{{ $passenger->code}}</td>
-                                <td>{{ $passenger->dni}}</td>
-                                <td>{{ $passenger->allergies}}</td>
-                                <td>{{ $passenger->medications}}</td>
-                                <td>{{ $passenger->observations }}</td>
-                                <td>
-                                    <div class="d-flex">
-                                        <a href="{{ route('passenger.edit', $passenger->id) }}"
-                                            class="btn btn-primary btn-sm mr-2">{{ __('Edit') }}</a>
-                                        <form action="{{ route('passenger.destroy', $passenger->id) }}" method="POST"
-                                            class="d-inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete')
-                                                }}</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -65,3 +47,28 @@
     </div>
 </div>
 @endsection
+<script>
+    $(document).ready(function() {
+        $('#passengers-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('dt.passengers') }}",
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'last_name', name: 'last_name' },
+                { data: 'code', name: 'code' },
+                { data: 'dni', name: 'dni' },
+                { data: 'allergies', name: 'allergies' },
+                { data: 'medications', name: 'medications' },
+                { data: 'observations', name: 'observations' },
+                { data: 'company_name', name: 'company_name' },
+                { data: 'actions', name: 'actions', orderable: false, searchable: false },
+            ],
+           rowReorder: {
+            selector: 'td:nth-child(2)'
+            },
+            responsive: true
+        });
+    });
+</script>
