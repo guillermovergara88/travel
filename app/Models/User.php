@@ -77,22 +77,32 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Determine if the user has a "superadmin" role.
+     * Get the role associated with the user.
      *
-     * @return bool
+     * @return string
      */
-    public function isSuperAdmin()
+    public function getRole()
     {
-        return $this->role === 'superadmin';
+        return $this->role;
     }
 
     /**
-     * Determine if the user has an "admin" role.
+     * Check if user is Admin
      *
      * @return bool
      */
     public function isAdmin()
     {
-        return $this->role === 'admin';
+        return $this->getRole() === 'admin';
+    }
+
+    /**
+     * Check if user is SuperAdmin
+     *
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return $this->getRole() === 'superadmin';
     }
 }

@@ -13,14 +13,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        
-        if ($user->isSuperAdmin()) {
-            return view('superadmin.home');
-        } elseif ($user->isAdmin()) {
-            return view('admin.home');
-        } else {
-            return view('user.home');
-        }
+        return view ($user->getRole().'.home');
     }
 
 
